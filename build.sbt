@@ -10,7 +10,7 @@ import com.typesafe.sbt.SbtGhPages.GhPagesKeys._
 val previousVersion = "0.4.0"
 val buildVersion = "0.4.1"
 
-addCommandAlias("testAll", ";coreCommonLegacy/test;coreCommonEdge/test;playJsonLegacy/test;playJsonEdge/test;json4sNativeLegacy/test;json4sNativeEdge/test;json4sJacksonLegacy/test;json4sJacksonEdge/test;playLegacy/test;playEdge/test")
+addCommandAlias("testAll", ";coreCommonLegacy/test;coreCommonEdge/test;playJsonLegacy/test;playJsonEdge/test;json4sNativeLegacy/test;json4sNativeEdge/test;json4sJacksonLegacy/test;json4sJacksonEdge/test;playLegacy/test;playEdge/test;jawnArgonautEdge/test;jawnArgonautLegacy/test")
 
 addCommandAlias("scaladoc", ";coreEdge/doc;playJsonEdge/doc;playEdge/doc;json4sNativeEdge/doc;scaladocScript")
 addCommandAlias("publish-doc", ";docs/makeSite;docs/ghpagesPushSite")
@@ -98,8 +98,8 @@ lazy val jwtScala = project.in(file("."))
   .settings(
     name := "jwt-scala"
   )
-  .aggregate(playEdge, playLegacy, json4sNativeLegacy, json4sNativeEdge, json4sJacksonLegacy, json4sJacksonEdge)
-  .dependsOn(playEdge, playLegacy, json4sNativeLegacy, json4sNativeEdge, json4sJacksonLegacy, json4sJacksonEdge)
+  .aggregate(playEdge, playLegacy, json4sNativeLegacy, json4sNativeEdge, json4sJacksonLegacy, json4sJacksonEdge, jawnArgonautEdge, jawnArgonautLegacy)
+  .dependsOn(playEdge, playLegacy, json4sNativeLegacy, json4sNativeEdge, json4sJacksonLegacy, json4sJacksonEdge, jawnArgonautEdge, jawnArgonautLegacy)
 
 lazy val docs = project.in(file("docs"))
   .settings(name := "jwt-docs")
@@ -279,3 +279,23 @@ lazy val examplePlayAngularProject = project.in(file("examples/play-angular"))
   .enablePlugins(play.PlayScala)
   .aggregate(playEdge)
   .dependsOn(playEdge)
+
+lazy val jawnArgonautEdge = project.in(file("json/jawn-argonaut"))
+  .settings(publishSettings)
+  .settings(
+    name := "jwt-jawn-argonaut",
+    target <<= target(_ / "edge"),
+    libraryDependencies ++= Seq(Libs.jawnArgonaut)
+  )
+  .aggregate(jsonCommonEdge)
+  .dependsOn(jsonCommonEdge % "compile->compile;test->test")
+
+lazy val jawnArgonautLegacy = project.in(file("json/jawn-argonaut"))
+  .settings(publishSettings)
+  .settings(
+    name := "jwt-jawn-argonaut-legacy",
+    target <<= target(_ / "legacy"),
+    libraryDependencies ++= Seq(Libs.jawnArgonaut)
+  )
+  .aggregate(jsonCommonLegacy)
+  .dependsOn(jsonCommonLegacy % "compile->compile;test->test")

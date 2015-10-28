@@ -9,6 +9,7 @@ object Dependencies {
     val jmockit = "1.17"
     val apacheCodec = "1.10"
     val bouncyCastle = "1.52"
+    val jawn = "0.8.3"
   }
 
   object Libs {
@@ -27,5 +28,7 @@ object Dependencies {
     val scalatest = "org.scalatest" %% "scalatest" % V.scalatest % "test"
     val scalatestPlus = "org.scalatestplus" %% "play" % V.scalatestPlus % "test"
     val jmockit = "org.jmockit" % "jmockit" % V.jmockit % "test"
+
+    val jawnArgonaut = "org.spire-math" %% "jawn-argonaut" % V.jawn % "provided"
   }
 }
